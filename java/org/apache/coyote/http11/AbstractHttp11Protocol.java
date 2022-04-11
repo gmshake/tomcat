@@ -235,14 +235,33 @@ public abstract class AbstractHttp11Protocol<S> extends AbstractProtocol<S> {
         this.maxSavePostSize = maxSavePostSize;
     }
 
+    // FIXME document the reason for deprecation
+    @Deprecated
+    public int getMaxHttpHeaderSize() {
+        return Math.max(getMaxHttpRequestHeaderSize(), getMaxHttpResponseHeaderSize());
+    }
 
     /**
-     * Maximum size of the HTTP message header.
+     * Set the maximum size of the HTTP request/response message header.
      */
-    private int maxHttpHeaderSize = 8 * 1024;
-    public int getMaxHttpHeaderSize() { return maxHttpHeaderSize; }
-    public void setMaxHttpHeaderSize(int valueI) { maxHttpHeaderSize = valueI; }
+    public void setMaxHttpHeaderSize(int valueI) {
+        setMaxHttpRequestHeaderSize(valueI);
+        setMaxHttpResponseHeaderSize(valueI);
+    }
 
+    /**
+     * Maximum size of the HTTP request message header.
+     */
+    private int maxHttpRequestHeaderSize = 8 * 1024;
+    public int getMaxHttpRequestHeaderSize() { return maxHttpRequestHeaderSize; }
+    public void setMaxHttpRequestHeaderSize(int valueI) { maxHttpRequestHeaderSize = valueI; }
+
+    /**
+     * Maximum size of the HTTP response message header.
+     */
+    private int maxHttpResponseHeaderSize = 8 * 1024;
+    public int getMaxHttpResponseHeaderSize() { return maxHttpResponseHeaderSize; }
+    public void setMaxHttpResponseHeaderSize(int valueI) { maxHttpResponseHeaderSize = valueI; }
 
     private int connectionUploadTimeout = 300000;
     /**
